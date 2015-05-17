@@ -1,0 +1,21 @@
+language: node_js
+before_install:
+  - npm install -g gulp mocha
+  - npm install
+  - npm test
+install:
+  - 'git config --global user.email "travis-ci@entercastle.com"'
+  - 'git config --global user.name "Travis Castle"'
+script:
+  - gulp docs
+  - cd docs
+  - git init
+  - 'git remote add origin "https://${GH_TOKEN}@github.com/castle-dev/le-email-provider-mandrill.git"'
+  - git checkout -B gh-pages
+  - git add .
+  - 'git commit -m "Updating documentation"'
+  - 'git push origin gh-pages -fq > /dev/null'
+env:
+  global:
+    - ENVIRONMENT=staging
+    - secure: ogtn+S0t4LvF72FM8s8EfRdPDfa1JBnz9wB2sh0G5dB8WTaLJFjiFnZiSt9BW3C+2g0CaqBl8qLUnuPukFcSmYsF2ZaLm0OKKz6+bOtgVYkGMpvYRn2Y7XdIIDYW7v7x43MI1bE9Y+uLP5LaD1NtpyjkwwYMDgJ3DfUlE+gcMjCmCRsbv0IrTGmbFLhDbCKR+CRAGQXHGAL9mhaF13dG2WRFI+NCSMSceR8x6fSZ6B7OczGcSAMpgl5+Ssp4jS8aFoQK01z/k/HawS/G5c/sgGgXUXucFVXQs+6Jw4Cvr3MZ71cUX6oy/KYg8mB2pdbN94o47CCi60xY98drpmvCgtzpLjFJRi9Os2tIX/GtDl3WuAKlThTaBBMF6G6u21CiMcMHdxEKZXX0oy0C02dbhalmAkB4fP8nZjCwxJN+ewTaes0bFqFbYVkZa6AnNh9MlL039YZn4R/h675MRngiBTi6zfLbdzcRrgqZoqaROYkCRTA/HikzUYzGBmVxsj1rleo41UJhCfx8htzKGxX+qgmZrh1moQoi4NuPDUpGTzDOdFwgQtOPnLbsaFRB6DgfgbdjDw8wEkUGxjLa/4+5sA3KA56Cxoeq12StY5i5W4UF7vqi7G+AcUdpFfvNBBIwwm2BPF67vdnukh7/UXGzDi8oONcXU91kA2YLURQuJsY=
