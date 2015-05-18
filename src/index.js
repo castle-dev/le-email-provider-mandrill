@@ -1,6 +1,11 @@
 var q = require('q');
 var powerdrill = require('powerdrill');
-
+/**
+ * A bridge between le-email-service and Mandrill
+ * @class EmailProvider
+ * @param {string} apiKey the mandrill api key
+ * @returns {service}
+ */
 var EmailProvider = function (apiKey) {
   if (!apiKey) { throw new Error('API key required'); }
   var _api = powerdrill(apiKey);
@@ -16,7 +21,17 @@ var EmailProvider = function (apiKey) {
         deferred.resolve();
       } else { deferred.reject(new Error('Uknown error')); }
   }
-
+  /**
+   * Sends an email with html content
+   * @function sendHtml
+   * @memberof EmailProvider
+   * @instance
+   * @param {string} from the email address of the sender
+   * @param {string} to the email address of the recipient
+   * @param {string} subject the subject line of the email
+   * @param {string} html the html content
+   * @returns {promise}
+   */
   this.sendHtml = function (from, to, subject, html) {
     var deferred = q.defer();
     var message = _api()
@@ -29,7 +44,17 @@ var EmailProvider = function (apiKey) {
     });
     return deferred.promise;
   };
-
+  /**
+   * Sends a template email
+   * @function sendTemplate
+   * @memberof EmailProvider
+   * @instance
+   * @param {string} from the email address of the sender
+   * @param {string} to the email address of the recipient
+   * @param {string} id the unique identifier of the template
+   * @param {string} data the key/value pairs to inject
+   * @returns {promise}
+   */
   this.sendTemplate = function (from, to, id, data) {
     var deferred = q.defer();
     var message = _api()
@@ -46,8 +71,6 @@ var EmailProvider = function (apiKey) {
     });
     return deferred.promise
   };
-
-  
 }
 
 module.exports = EmailProvider;
