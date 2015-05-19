@@ -40,5 +40,7 @@
     "travis-encrypt": "^1.1.1"
   },
   "dependencies": {
+    "powerdrill": "^0.2.16",
+    "q": "^1.4.1"
   }
 }
