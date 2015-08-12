@@ -30,16 +30,20 @@ var EmailProvider = function (apiKey) {
    * @param {string} to the email address of the recipient
    * @param {string} subject the subject line of the email
    * @param {string} html the html content
+   * @param {string} replyTo (optional) the reply-to email address
    * @returns {promise}
    */
-  this.sendHtml = function (from, to, subject, html) {
+  this.sendHtml = function (from, to, subject, html, replyTo) {
     var deferred = q.defer();
     var message = _api()
     .subject(subject)
     .to(to)
     .from(from)
-    .html(html)
-    .send(function (err, resp) {
+    .html(html);
+    if (replyTo) {
+      message.header('Reply-To', replyTo);
+    }
+    message.send(function (err, resp) {
       handleResponse(err, resp, deferred);
     });
     return deferred.promise;
@@ -53,9 +57,10 @@ var EmailProvider = function (apiKey) {
    * @param {string} to the email address of the recipient
    * @param {string} id the unique identifier of the template
    * @param {string} data the key/value pairs to inject
+   * @param {string} replyTo (optional) the reply-to email address
    * @returns {promise}
    */
-  this.sendTemplate = function (from, to, id, data) {
+  this.sendTemplate = function (from, to, id, data, replyTo) {
     var deferred = q.defer();
     var message = _api()
     .to(to)
@@ -65,6 +70,9 @@ var EmailProvider = function (apiKey) {
       if (data.hasOwnProperty(key)) {
         message.templateContent(key, data[key]);
       }
+    }
+    if (replyTo) {
+      message.header('Reply-To', replyTo);
     }
     message.send(function (err, resp) {
       handleResponse(err, resp, deferred);
