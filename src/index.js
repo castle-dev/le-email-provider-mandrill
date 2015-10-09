@@ -58,9 +58,10 @@ var EmailProvider = function (apiKey) {
    * @param {string} id the unique identifier of the template
    * @param {string} data the key/value pairs to inject
    * @param {string} replyTo (optional) the reply-to email address
+   * @param {string} subject (optional) the subject
    * @returns {promise}
    */
-  this.sendTemplate = function (from, to, id, data, replyTo) {
+  this.sendTemplate = function (from, to, id, data, replyTo, subject) {
     var deferred = q.defer();
     var message = _api()
     .to(to)
@@ -73,6 +74,9 @@ var EmailProvider = function (apiKey) {
     }
     if (replyTo) {
       message.header('Reply-To', replyTo);
+    }
+    if (subject) {
+      message.subject(subject)
     }
     message.send(function (err, resp) {
       handleResponse(err, resp, deferred);
