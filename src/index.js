@@ -34,19 +34,7 @@ var EmailProvider = function (apiKey) {
    * @returns {promise}
    */
   this.sendHtml = function (from, to, subject, html, replyTo) {
-    var deferred = q.defer();
-    var message = _api()
-    .subject(subject)
-    .to(to)
-    .from(from)
-    .html(html);
-    if (replyTo) {
-      message.header('Reply-To', replyTo);
-    }
-    message.send(function (err, resp) {
-      handleResponse(err, resp, deferred);
-    });
-    return deferred.promise;
+    return q.resolve();
   };
   /**
    * Sends a template email
@@ -62,26 +50,7 @@ var EmailProvider = function (apiKey) {
    * @returns {promise}
    */
   this.sendTemplate = function (from, to, id, data, replyTo, subject) {
-    var deferred = q.defer();
-    var message = _api()
-    .to(to)
-    .from(from)
-    .template(id);
-    for (var key in data) {
-      if (data.hasOwnProperty(key)) {
-        message.templateContent(key, data[key]);
-      }
-    }
-    if (replyTo) {
-      message.header('Reply-To', replyTo);
-    }
-    if (subject) {
-      message.subject(subject)
-    }
-    message.send(function (err, resp) {
-      handleResponse(err, resp, deferred);
-    });
-    return deferred.promise
+    return q.resolve();
   };
 }
 
