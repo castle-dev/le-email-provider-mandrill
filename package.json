@@ -1,6 +1,6 @@
 {
   "name": "le-email-provider-mandrill",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Connects le-email-service to Mandrill",
   "main": "src/index.js",
   "scripts": {
